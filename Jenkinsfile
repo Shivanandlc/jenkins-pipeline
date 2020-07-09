@@ -10,12 +10,12 @@ pipeline {
                 git credentialsId: 'git_credentials', url: 'https://github.com/Shivanandlc/spring-jenkins.git'
             }
         }
-        stage("Build Stage") {
+        stage("Build Code") {
             steps {
                 bat "mvn clean install"
             }
         }
-        stage("Test Stage") {
+        stage("Test Code") {
             steps {
                 bat "mvn test"
             }
@@ -25,10 +25,10 @@ pipeline {
                 archive 'target/*.war'
             }
         }*/
-        /*stage("Deploy Code") {
+        stage("Deploy to Tomcat") {
             steps {
                 bat '''copy C:\\Users\\shiva\\Downloads\\jenkins\\jenkins\\target\\*.war D:\\apache-tomcat-8.5.57\\apache-tomcat-8.5.57\\webapps\\'''
             }
-        }*/
+        }
   }
 }
