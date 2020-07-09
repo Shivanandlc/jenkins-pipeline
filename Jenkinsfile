@@ -20,7 +20,7 @@ pipeline {
                 bat "mvn package"
             }
         }
-        stage("Artifact") {
+        /*stage("Artifact") {
             steps {
                 archive 'target/*.war'
             }
@@ -29,6 +29,6 @@ pipeline {
             steps {
                 bat '''copy C:\\Users\\shiva\\Downloads\\jenkins\\jenkins\\target\\*.war D:\\apache-tomcat-8.5.57\\apache-tomcat-8.5.57\\webapps\\'''
             }
-        }
+        }*/
   }
 }
