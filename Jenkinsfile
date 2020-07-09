@@ -12,7 +12,7 @@ pipeline {
         }
         stage("Build Code") {
             steps {
-                bat "mvn clean install"
+                bat "mvn clean package"
             }
         }
         stage("Test Code") {
