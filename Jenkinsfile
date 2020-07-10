@@ -27,7 +27,7 @@ pipeline {
         }*/
         stage("Deploy to Tomcat") {
             steps {
-                bat '''copy target\\*.war D:\\apache-tomcat-8.5.57\\apache-tomcat-8.5.57\\webapps\\'''
+                bat '''copy C:\\Program Files (x86)\\Jenkins\\workspace\\jenkins-pipeline\\target\\*.war D:\\apache-tomcat-8.5.57\\apache-tomcat-8.5.57\\webapps\\'''
             }
         }
   }
