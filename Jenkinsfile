@@ -5,11 +5,11 @@ pipeline {
         jdk "Java8"
     }
     stages {
-        stage("Cloning Repo") {
+        /*stage("Cloning Repo") {
             steps {
                 git credentialsId: 'git_credentials', url: 'https://github.com/Shivanandlc/spring-jenkins.git'
             }
-        }
+        }*/
         stage("Build Code") {
             steps {
                 bat "mvn install"
