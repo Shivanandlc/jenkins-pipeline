@@ -11,7 +11,7 @@
 	<groupId>com.demo</groupId>
 	<artifactId>jenkins</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>jenkins</name>
 	<description>Demo project for Spring Boot</description>
 
