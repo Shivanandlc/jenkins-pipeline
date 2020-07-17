@@ -1,38 +1,26 @@
-pipeline {
-    agent any
-    tools {
-        maven 'Maven_3.6.2'
-        jdk "Java8"
+node{
+    stage('SCM'){
+        git credentialsId: 'git_credentials', url: 'https://github.com/Shivanandlc/jenkins-pipeline'
     }
-    stages {
-        /*stage("Cloning Repo") {
-            steps {
-                git credentialsId: 'git_credentials', url: 'https://github.com/Shivanandlc/spring-jenkins.git'
-            }
-        }*/
-        stage("Build Code") {
-            steps {
-                bat "mvn install"
-            }
+    stage('Mvn'){
+        def mvnHome = tool name: 'maven-3', type: 'maven'
+        def mvnCMD = "${mvnHome}/bin/mvn"
+        sh "${mvnCMD} clean package"
+    }
+    stage('Build Docker Image'){
+        sh 'docker build -t shivalc/jenkins-app:2.0.0 .'
+    }
+    stage('Push Docker Image'){
+        withCredentials([string(credentialsId: 'docker-pswd', variable: 'dockerHubPwd')]) {
+            sh "docker login -u shivalc -p ${dockerHubPwd}"
         }
-        stage("Test Code") {
-            steps {
-                bat "mvn test"
-            }
-        }
-        /*stage("Artifact") {
-            steps {
-                archive 'target/*.war'
-            }
-        }*/
-        stage("Deploy to Tomcat") {
-            steps {
-                //bat 'cd target'
-                //bat '''copy C:\\Users\\shiva\\Downloads\\jenkins\\jenkins\\target\\*.war D:\\apache-tomcat-8.5.57\\apache-tomcat-8.5.57\\webapps\\'''
-                bat '''copy "C:\\Program Files (x86)\\Jenkins\\workspace\\jenkins-pipeline\\target\\*.war" D:\\apache-tomcat-8.5.57\\apache-tomcat-8.5.57\\webapps\\'''
-                //bat '''java -jar target\\jenkinsPipeline.jar'''
 
-            }
+        sh 'docker push shivalc/jenkins-app:2.0.0'
+    }
+    stage('Run Container on Dev Server'){
+        sshagent(['dev-server']) {
+            def dockrCont = 'docker run -p 9091:8080 -d --name jenkins-app shivalc/jenkins-app:2.0.0'
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.37.91 ${dockrCont}"
         }
-  }
+    }
 }
