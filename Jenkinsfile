@@ -20,11 +20,7 @@ pipeline {
                 bat "mvn test"
             }
         }
-        /*stage("Artifact") {
-            steps {
-                archive 'target/*.war'
-            }
-        }*/
+
         stage("Deploy to Tomcat") {
             steps {
                 //bat 'cd target'
